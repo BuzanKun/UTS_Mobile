@@ -1,5 +1,8 @@
 package com.example.uts.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,8 +14,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,7 +30,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.uts.components.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TambahAlumniScreen(navController: NavHostController) {
     var nim by remember { mutableStateOf("") }
@@ -37,6 +48,9 @@ fun TambahAlumniScreen(navController: NavHostController) {
     var tahunLulus by remember { mutableStateOf("") }
     var pekerjaan by remember { mutableStateOf("") }
     var jabatan by remember { mutableStateOf("") }
+
+    val dateState = rememberDatePickerState()
+    var showDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -75,8 +89,43 @@ fun TambahAlumniScreen(navController: NavHostController) {
                 value = tanggalLahir,
                 onValueChange = { tanggalLahir = it },
                 label = { Text(text = "Tanggal Lahir") },
-                modifier = Modifier.fillMaxWidth()
+                enabled = false,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(onClick = {
+                        showDialog = true
+                    })
             )
+            if(showDialog) {
+                DatePickerDialog(
+                    onDismissRequest = { showDialog = false },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                tanggalLahir = dateState.selectedDateMillis?.let {
+                                    val selectedDate =
+                                        LocalDate.ofEpochDay(it / (24 * 60 * 60 * 1000))
+                                    selectedDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+                                } ?: ""
+                                showDialog = false }
+                        ) {
+                            Text(text = "OK")
+                        }
+                    },
+                    dismissButton = {
+                        Button(
+                            onClick = {showDialog = false}
+                        ) {
+                            Text(text = "Cancel")
+                        }
+                    }
+                ) {
+                    DatePicker(
+                        state = dateState,
+                        showModeToggle = true
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(8.dp))
             TextField(
                 value = alamat,
