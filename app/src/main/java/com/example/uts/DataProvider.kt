@@ -149,7 +149,7 @@ object DataProvider {
         Berita(
             id = 10,
             image = R.drawable.godzilla_icon,
-            headerImage = R.drawable.pointgo_bg,
+            headerImage = R.drawable.godzilla_bg,
             judul = "Godzilla Minus One Sets Record For Most Pirated Movie of All Time! Lands First Place on Torrent Charts Followed By Dune: Part Two",
             deskripsi = "Takashi Yamazaki’s Godzilla Minus One made history by winning the first Academy Award in the 70-year-old Godzilla franchise in March 2024",
             isiKonten = "Takashi Yamazaki’s Godzilla Minus One, which made history by winning the first Academy Award in the venerable 70-year-old Godzilla franchise this year, reportedly also broke the record for the most pirated movie ever.\n" +

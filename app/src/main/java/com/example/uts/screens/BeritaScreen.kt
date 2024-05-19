@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -70,8 +71,8 @@ fun BeritaListItem(berita: Berita, navController: NavHostController) {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .width(100.dp)
+                    .height(100.dp)
                     .align(Alignment.CenterVertically)
-                    .fillMaxWidth()
                     .clip(RoundedCornerShape(4.dp))
             )
             Column(
