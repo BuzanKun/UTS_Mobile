@@ -1,5 +1,6 @@
 package com.example.uts.screens
 
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -128,7 +129,8 @@ fun TambahAlumniScreen(navController: NavHostController) {
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                          },
                 shape = RoundedCornerShape(4.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
