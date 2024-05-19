@@ -23,13 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.uts.components.*
+import com.example.uts.utils.PreferencesManager
 
 @Composable
 fun ProfileScreen(navController: NavHostController) {
-    var email by remember { mutableStateOf("") }
-    var nim by remember { mutableStateOf("") }
-    var nama by remember { mutableStateOf("") }
-    var kelas by remember { mutableStateOf("") }
+    val context = navController.context
+    val userData = PreferencesManager.getUserData(context)
+
+    var email by remember { mutableStateOf(userData["email"]?: "") }
+    var nim by remember { mutableStateOf(userData["nim"]?: "") }
+    var nama by remember { mutableStateOf(userData["nama"]?: "") }
+    var kelas by remember { mutableStateOf(userData["kelas"]?: "") }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -47,6 +51,7 @@ fun ProfileScreen(navController: NavHostController) {
                 value = email,
                 onValueChange = { email = it },
                 label = { Text(text = "Email") },
+                enabled = false,
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -54,6 +59,7 @@ fun ProfileScreen(navController: NavHostController) {
                 value = nim,
                 onValueChange = { nim = it },
                 label = { Text(text = "NIM") },
+                enabled = false,
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -61,6 +67,7 @@ fun ProfileScreen(navController: NavHostController) {
                 value = nama,
                 onValueChange = { nama = it },
                 label = { Text(text = "Nama") },
+                enabled = false,
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -68,11 +75,19 @@ fun ProfileScreen(navController: NavHostController) {
                 value = kelas,
                 onValueChange = { kelas = it },
                 label = { Text(text = "Kelas") },
+                enabled = false,
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
             Button(
-                onClick = { navController.navigate("login") },
+                onClick = {
+                    PreferencesManager.clearLoginState(context)
+                    navController.navigate("login") {
+                        popUpTo(navController.graph.startDestinationId) {
+                            inclusive = true
+                        }
+                    }
+                },
                 shape = RoundedCornerShape(4.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {

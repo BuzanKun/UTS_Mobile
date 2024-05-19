@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.uts.R
@@ -49,6 +50,7 @@ fun LoginScreen(navController: NavHostController) {
             value = password,
             onValueChange = { password = it },
             label = { Text("Password") },
+            visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -56,6 +58,13 @@ fun LoginScreen(navController: NavHostController) {
             onClick = {
                 if (email == correctEmail && password == correctPassword) {
                     PreferencesManager.setLoggedIn(context, true)
+                    PreferencesManager.setUserData(
+                        context,
+                        "muhrizkyram@gmail.com",
+                        "2207411044",
+                        "Muhammad Rizky Ramadhani",
+                        "TI-4B"
+                    )
                     navController.navigate("home")
                 } else {
                     errorMessage = "Incorrect Email or Password"
